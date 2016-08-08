@@ -28,6 +28,7 @@
     "phpunit/phpunit": "5.5.*"
   },
   "require-dev": {
-    "php-http/mock-client": "0.3.*"
+    "php-http/mock-client": "0.3.*",
+    "codeclimate/php-test-reporter": "dev-master"
   }
 }

@@ -3,5 +3,12 @@ php:
   - '5.6'
   - '7.0'
 
-install: composer install
-script: phpunit
+addons:
+  code_climate:
+    repo_token:
+      secure: "f7TXoeLinjXDdX1BqFGaUNTGr1UQtSJocm7zjIgv8r6sy0En7Kl1TlZbWFmRxI4XHN9k1xHWf2UR8vhF2RXesg0TYKVUeU0mdNWJ4dUhYJqzaO62XUyePMcpt7BopLAOGhYbIfi51jJBVpgVo77hGEBmxTusL2FCabqFyBTahwA9NLtuIUc7EkOmjNV9bhm/cGeyzGDo45pRCfLxVQlZ7PpUG8Apewn18pDCxgTMJTIpdrq8yKM3zoZ6W8pTXi4kHyGhbaWn3Ey+FIPAvG2OgK5coZ/PvR2FiiOfLulpiy/HXH064znrsRdf3UE5VtYJj8LMxrbKrv+ebBjYwKB/ByE2WqSuGFJXDrmq7YlGQT2YDvpRmt4C6urWxYvaceVawcLGR+0avC+iExgcjGaMyMTwttYFwuivfdxFe2npGxPIv1Tt/JmMALl1hq96RQ95r7vbguxdeMnngpCeqe41GdzeBnU+Yr+Pr97GJhpfzjYNKOiIkKeJQAMxg0RApRO2e2lSidkVmqm6ni4jCxdT63Sf0zZTjjEzDNOf8EHkhk/4bIN6cKuhpB+DKU8+JCHIC1gCzqY13EI0z1OjfFZ6Pjd/EQomB+toc6M4ChuLy3igjQ50/HHM9ejPL3P00T+M3Bdc1uEjh2igSCr1CcatlF+hPpb+PZOIxsxtWT+iyZw="
+
+install: composer install --dev
+script: phpunit --coverage-clover build/logs/clover.xml
+after_script:
+  - vendor/bin/test-reporter
