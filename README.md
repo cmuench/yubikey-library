@@ -1,6 +1,7 @@
 # Yubikey Authentication Library
 
 [![Code Climate](https://codeclimate.com/github/cmuench/yubikey-library/badges/gpa.svg)](https://codeclimate.com/github/cmuench/yubikey-library)
+[![Test Coverage](https://codeclimate.com/github/cmuench/yubikey-library/badges/coverage.svg)](https://codeclimate.com/github/cmuench/yubikey-library/coverage)
 
 Provides a `\CMuench\Yubikey\AuthenticationClient` class which can be used to authenticate against
 the yubikey auth servers.
