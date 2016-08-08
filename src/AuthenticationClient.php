@@ -126,7 +126,7 @@ class AuthenticationClient
             return false;
         }
 
-        $queryString = $this->_getQueryString($otp);
+        $queryString = $this->createQueryString($otp);
 
         foreach ($this->apiConfiguration->getValidationServers() as $apiUrl) {
             try {
@@ -166,7 +166,7 @@ class AuthenticationClient
      * @param int $otp
      * @return string
      */
-    protected function _getQueryString($otp)
+    private function createQueryString($otp)
     {
         $data = array(
             'id'    => $this->apiConfiguration->getClientId(),
@@ -174,7 +174,7 @@ class AuthenticationClient
             'nonce' => $this->nonceGenerator->generate(),
         );
 
-        if ($this->apiConfiguration->getUseTimestamp()) {
+        if ($this->apiConfiguration->isUseTimestamp()) {
             $data['timestamp'] = 1;
         }
 
@@ -199,7 +199,7 @@ class AuthenticationClient
      */
     private function callValidationServer($apiUrl, $queryString)
     {
-        $apiServerUrl = ($this->apiConfiguration->getUseHttps() ? 'https://' : 'http://')
+        $apiServerUrl = ($this->apiConfiguration->isUseHttps() ? 'https://' : 'http://')
             . $apiUrl
             . '?'
             . $queryString;

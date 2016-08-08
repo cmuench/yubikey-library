@@ -35,17 +35,17 @@ interface ApiConfigurationInterface
     public function getTimeout();
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function getTranslateOtp();
+    public function isTranslateOtp();
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function getUseHttps();
+    public function isUseHttps();
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function getUseTimestamp();
+    public function isUseTimestamp();
 }

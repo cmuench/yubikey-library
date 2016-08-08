@@ -126,25 +126,25 @@ class ApiConfiguration implements ApiConfigurationInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function getTranslateOtp()
+    public function isTranslateOtp()
     {
         return $this->translateOtp;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function getUseHttps()
+    public function isUseHttps()
     {
         return $this->useHttps;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function getUseTimestamp()
+    public function isUseTimestamp()
     {
         return $this->useTimestamp;
     }

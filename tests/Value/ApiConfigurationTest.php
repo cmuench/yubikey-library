@@ -29,10 +29,10 @@ class ApiConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($clientId, $configuration->getClientId());
         $this->assertSame($apiSecret, $configuration->getApiSecret());
         $this->assertSame($validationServers, $configuration->getValidationServers());
-        $this->assertFalse($configuration->getUseHttps());
+        $this->assertFalse($configuration->isUseHttps());
         $this->assertEquals(100, $configuration->getSyncLevel());
         $this->assertEquals(1000, $configuration->getTimeout());
-        $this->assertFalse($configuration->getUseTimestamp());
-        $this->assertTrue($configuration->getTranslateOtp());
+        $this->assertFalse($configuration->isUseTimestamp());
+        $this->assertTrue($configuration->isTranslateOtp());
     }
 }

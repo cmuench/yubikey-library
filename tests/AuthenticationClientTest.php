@@ -84,7 +84,7 @@ class AuthenticationClientTest extends \PHPUnit_Framework_TestCase
             ]);
 
         $this->apiConfigurationMock->expects($this->any())
-            ->method('getUseTimestamp')
+            ->method('isUseTimestamp')
             ->willReturn(true);
 
         $this->otpValidator = $this->getMockBuilder(OtpValidator::class)
