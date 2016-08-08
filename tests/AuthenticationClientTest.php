@@ -100,7 +100,13 @@ class AuthenticationClientTest extends \PHPUnit_Framework_TestCase
 
     public function testWrongOtp()
     {
-        $this->otpValidator->expects($this->once())->method('validate')->willReturn(false);
+        $this->authenticationClient = new AuthenticationClient(
+            $this->apiConfigurationMock,
+            $this->httpClientMock,
+            $this->requestFactoryMock,
+            null
+        );
+
         $this->assertFalse($this->authenticationClient->verify($this->otp, $this->yubikey));
     }
 
