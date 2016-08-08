@@ -2,8 +2,12 @@
   "name": "cmuench/yubikey",
   "description": "Yubikey client library",
   "type": "library",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "MIT",
+  "keywords": ["yubikey", "otp", "authentication", "http", "validation"],
+  "support": {
+    "issues": "https://github.com/cmuench/yubikey-library/issues"
+  },
   "authors": [
     {
       "name": "Christian Münch",
