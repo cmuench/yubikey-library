@@ -71,12 +71,13 @@ class AuthenticationClient
 
     /**
      * AuthenticationClient constructor.
-     * @param ApiConfigurationInterface $apiConfiguration
-     * @param HttpClient $httpClient
-     * @param RequestFactory $requestFactory
-     * @param OtpValidatorInterface $otpValidator
-     * @param NonceGeneratorInterface $nonceGenerator
-     * @param SignatureGeneratorInterface $signatureGenerator
+     *
+     * @param ApiConfigurationInterface       $apiConfiguration
+     * @param HttpClient                      $httpClient
+     * @param RequestFactory                  $requestFactory
+     * @param OtpValidatorInterface           $otpValidator
+     * @param NonceGeneratorInterface         $nonceGenerator
+     * @param SignatureGeneratorInterface     $signatureGenerator
      * @param ResponsePartsValidatorInterface $responsePartsValidator
      */
     public function __construct(
@@ -118,6 +119,7 @@ class AuthenticationClient
     /**
      * @param string $otp
      * @param string $yubikey
+     *
      * @return bool
      */
     public function verify($otp, $yubikey = null)
@@ -164,13 +166,14 @@ class AuthenticationClient
 
     /**
      * @param int $otp
+     *
      * @return string
      */
     private function createQueryString($otp)
     {
         $data = array(
-            'id'    => $this->apiConfiguration->getClientId(),
-            'otp'   => $otp,
+            'id' => $this->apiConfiguration->getClientId(),
+            'otp' => $otp,
             'nonce' => $this->nonceGenerator->generate(),
         );
 
@@ -182,7 +185,7 @@ class AuthenticationClient
         $data['timeout'] = $this->apiConfiguration->getTimeout();
         ksort($data);
 
-        foreach ($data as $key => &$value) {
+        foreach ($data as &$value) {
             $value = urlencode($value);
         }
 
@@ -200,9 +203,9 @@ class AuthenticationClient
     private function callValidationServer($apiUrl, $queryString)
     {
         $apiServerUrl = ($this->apiConfiguration->isUseHttps() ? 'https://' : 'http://')
-            . $apiUrl
-            . '?'
-            . $queryString;
+            .$apiUrl
+            .'?'
+            .$queryString;
 
         $request = $this->requestFactory->createRequest(
             'POST',
