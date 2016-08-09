@@ -68,8 +68,15 @@ class ApiConfiguration implements ApiConfigurationInterface
      * @param bool $useTimestamp
      * @param bool $translateOtp
      */
-    public function __construct($clientId, $apiSecret, $validationServers = null, $useHttps = true, $syncLevel = 50,
-        $timeout = 10, $useTimestamp = true, $translateOtp = false
+    public function __construct(
+        $clientId,
+        $apiSecret,
+        $validationServers = null,
+        $useHttps = true,
+        $syncLevel = 50,
+        $timeout = 10,
+        $useTimestamp = true,
+        $translateOtp = false
     ) {
         $this->clientId = $clientId;
         $this->apiSecret = $apiSecret;
