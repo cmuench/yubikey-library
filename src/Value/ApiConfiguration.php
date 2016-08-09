@@ -82,7 +82,6 @@ class ApiConfiguration implements ApiConfigurationInterface
         if ($validationServers !== null) {
             $this->validationServers = $validationServers;
         }
-
     }
 
     /**
