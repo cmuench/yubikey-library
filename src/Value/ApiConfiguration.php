@@ -7,6 +7,9 @@
 
 namespace CMuench\Yubikey\Value;
 
+/**
+ * Class ApiConfiguration.
+ */
 class ApiConfiguration implements ApiConfigurationInterface
 {
     /**
@@ -25,7 +28,7 @@ class ApiConfiguration implements ApiConfigurationInterface
     private $useHttps;
 
     /**
-     * Sync level in percentage between 0 and 100 or "fast" or "secure"
+     * Sync level in percentage between 0 and 100 or "fast" or "secure".
      *
      * @var int
      */
@@ -49,24 +52,26 @@ class ApiConfiguration implements ApiConfigurationInterface
         'api2.yubico.com/wsapi/2.0/verify',
         'api3.yubico.com/wsapi/2.0/verify',
         'api4.yubico.com/wsapi/2.0/verify',
-        'api5.yubico.com/wsapi/2.0/verify'
+        'api5.yubico.com/wsapi/2.0/verify',
     ];
     /**
-     * @var bool|Mekras\OData\Client\Document\EntryDocument
+     * @var bool
      */
     private $translateOtp;
 
     /**
      * ApiConfig constructor.
      *
-     * @param string $clientId
-     * @param string $apiSecret
+     * @param string   $clientId
+     * @param string   $apiSecret
      * @param string[] $validationServers
-     * @param bool $useHttps
-     * @param int $syncLevel
-     * @param int $timeout
-     * @param bool $useTimestamp
-     * @param bool $translateOtp
+     * @param bool     $useHttps
+     * @param int      $syncLevel
+     * @param int      $timeout
+     * @param bool     $useTimestamp
+     * @param bool     $translateOtp
+     *
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
     public function __construct(
         $clientId,
