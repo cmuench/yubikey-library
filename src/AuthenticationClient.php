@@ -132,15 +132,15 @@ class AuthenticationClient implements AuthenticationClientInterface
             return false;
         }
 
+        $response = null;
+        $status = new Status(Status::STATUS_UNDEFINED);
+        $parts = [];
+
         $queryString = $this->createQueryString($otp);
 
         foreach ($this->apiConfiguration->getValidationServers() as $apiUrl) {
             try {
                 $response = $this->callValidationServer($apiUrl, $queryString);
-
-                $status = new Status(Status::STATUS_UNDEFINED);
-
-                $parts = [];
 
                 if ($response->getStatusCode() == 200) {
                     $parts = $this->partsExtractor->extract($response);
@@ -148,7 +148,7 @@ class AuthenticationClient implements AuthenticationClientInterface
                     $status = new Status($parts['status']);
                 }
 
-                $this->logger->debug(sprintf('got response with status: %s', $this->status->getCode()));
+                $this->logger->debug(sprintf('got response with status: %s', $status->getCode()));
 
                 // Status OK
                 if ($status->getCode() == Status::STATUS_OK) {

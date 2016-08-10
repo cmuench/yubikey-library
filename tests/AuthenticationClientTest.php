@@ -14,9 +14,15 @@ use Http\Client\HttpClient;
 use Http\Message\RequestFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
 class AuthenticationClientTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $loggerMock;
+
     /**
      * @var string
      */
@@ -80,7 +86,7 @@ class AuthenticationClientTest extends \PHPUnit_Framework_TestCase
             ->willReturn([
                 'http://example.com/server1',
                 'http://example.com/server2',
-                'http://example.com/server3'
+                'http://example.com/server3',
             ]);
 
         $this->apiConfigurationMock->expects($this->any())
@@ -90,10 +96,14 @@ class AuthenticationClientTest extends \PHPUnit_Framework_TestCase
         $this->otpValidator = $this->getMockBuilder(OtpValidator::class)
             ->getMock();
 
+        $loggerMock = $this->getMockBuilder(LoggerInterface::class)->getMock();
+
+        $this->loggerMock = $loggerMock;
         $this->authenticationClient = new AuthenticationClient(
             $this->apiConfigurationMock,
             $this->httpClientMock,
             $this->requestFactoryMock,
+            $this->loggerMock,
             $this->otpValidator
         );
     }
@@ -104,6 +114,7 @@ class AuthenticationClientTest extends \PHPUnit_Framework_TestCase
             $this->apiConfigurationMock,
             $this->httpClientMock,
             $this->requestFactoryMock,
+            $this->loggerMock,
             null
         );
 
@@ -111,7 +122,7 @@ class AuthenticationClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Simulate server error
+     * Simulate server error.
      *
      * @test
      */
