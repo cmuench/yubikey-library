@@ -165,7 +165,11 @@ class AuthenticationClient implements AuthenticationClientInterface
             } catch (\Exception $e) {
                 $this->logger->error(
                     $e->getMessage(),
-                    ['response' => $response, 'status' => $status, 'parts' => $parts]
+                    [
+                        'response' => $response,
+                        'status' => $status,
+                        'parts' => $parts,
+                    ]
                 );
 
                 continue; // Take next URL
