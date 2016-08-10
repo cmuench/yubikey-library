@@ -21,14 +21,10 @@ use CMuench\Yubikey\Value\Status;
 use Http\Client\HttpClient;
 use Http\Message\RequestFactory;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
 class AuthenticationClient implements AuthenticationClientInterface
 {
-    /**
-     * @var Status
-     */
-    private $status = null;
-
     /**
      * @var HttpClient
      */
@@ -70,11 +66,17 @@ class AuthenticationClient implements AuthenticationClientInterface
     private $partsExtractor;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * AuthenticationClient constructor.
      *
      * @param ApiConfigurationInterface       $apiConfiguration
      * @param HttpClient                      $httpClient
      * @param RequestFactory                  $requestFactory
+     * @param LoggerInterface                 $logger
      * @param OtpValidatorInterface           $otpValidator
      * @param NonceGeneratorInterface         $nonceGenerator
      * @param SignatureGeneratorInterface     $signatureGenerator
@@ -84,6 +86,7 @@ class AuthenticationClient implements AuthenticationClientInterface
         ApiConfigurationInterface $apiConfiguration,
         HttpClient $httpClient,
         RequestFactory $requestFactory,
+        LoggerInterface $logger,
         OtpValidatorInterface $otpValidator = null,
         NonceGeneratorInterface $nonceGenerator = null,
         SignatureGeneratorInterface $signatureGenerator = null,
@@ -114,6 +117,7 @@ class AuthenticationClient implements AuthenticationClientInterface
         }
 
         $this->partsExtractor = new PartsExtractor();
+        $this->logger = $logger;
     }
 
     /**
@@ -134,29 +138,36 @@ class AuthenticationClient implements AuthenticationClientInterface
             try {
                 $response = $this->callValidationServer($apiUrl, $queryString);
 
-                $this->status = new Status(Status::STATUS_UNDEFINED);
+                $status = new Status(Status::STATUS_UNDEFINED);
 
                 $parts = [];
 
                 if ($response->getStatusCode() == 200) {
                     $parts = $this->partsExtractor->extract($response);
 
-                    $this->status = new Status($parts['status']);
+                    $status = new Status($parts['status']);
                 }
 
+                $this->logger->debug(sprintf('got response with status: %s', $this->status->getCode()));
+
                 // Status OK
-                if ($this->status->getCode() == Status::STATUS_OK) {
+                if ($status->getCode() == Status::STATUS_OK) {
                     return true;
                 }
 
                 // Sometimes yubico sends a backend error status
                 // try next server.
-                if ($this->status->getCode() == Status::STATUS_BACKEND_ERROR) {
+                if ($status->getCode() == Status::STATUS_BACKEND_ERROR) {
                     continue;
                 }
 
                 return $this->responsePartsValidator->validate($parts, $otp);
             } catch (\Exception $e) {
+                $this->logger->error(
+                    $e->getMessage(),
+                    ['response' => $response, 'status' => $status, 'parts' => $parts]
+                );
+
                 continue; // Take next URL
             }
         }
@@ -206,6 +217,8 @@ class AuthenticationClient implements AuthenticationClientInterface
             .$apiUrl
             .'?'
             .$queryString;
+
+        $this->logger->debug(sprintf('call URL: %s', $apiServerUrl));
 
         $request = $this->requestFactory->createRequest(
             'POST',
