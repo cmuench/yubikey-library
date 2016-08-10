@@ -22,7 +22,7 @@ use Http\Client\HttpClient;
 use Http\Message\RequestFactory;
 use Psr\Http\Message\ResponseInterface;
 
-class AuthenticationClient
+class AuthenticationClient implements AuthenticationClientInterface
 {
     /**
      * @var Status
